@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <title></title>
+</head>
+<body>
+<h1 onclick="locationhref()">点击跳转小程序</h1>
+
+
+
+</body>
+<script type="text/javascript">
+    function locationhref() {
+        var xhr = new XMLHttpRequest();
+        var url = '/locationherf';
+
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    console.log('Access Token:', response.access_token);
+                } else {
+                    console.error('获取access_token失败:', xhr.status, xhr.statusText);
+                }
+            }
+        };
+        xhr.send();
+    }
+</script>
+</html>
