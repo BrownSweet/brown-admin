@@ -47,8 +47,8 @@ const {
         />
       </el-form-item>
       <el-form-item>
+        <Perms value="'SystemMenu:search'">
         <el-button
-          v-auth="'SystemMenu:search'"
           type="primary"
           :icon="useRenderIcon('ri:search-line')"
           :loading="loading"
@@ -56,13 +56,15 @@ const {
         >
           搜索
         </el-button>
-        <el-button
-          v-auth="'SystemMenu:reset'"
-          :icon="useRenderIcon(Refresh)"
-          @click="resetForm(formRef)"
-        >
-          重置
-        </el-button>
+        </Perms>
+        <Perms value="'SystemMenu:reset'">
+          <el-button
+            :icon="useRenderIcon(Refresh)"
+            @click="resetForm(formRef)"
+          >
+            重置
+          </el-button>
+        </Perms>
       </el-form-item>
     </el-form>
     <PureTableBar
@@ -73,14 +75,15 @@ const {
       @refresh="onSearch"
     >
       <template #buttons>
-        <el-button
-          v-auth="'SystemMenu:addMenu'"
-          type="primary"
-          :icon="useRenderIcon(AddFill)"
-          @click="openDialog()"
-        >
-          新增菜单
-        </el-button>
+        <Perms value="'SystemMenu:addMenu'">
+          <el-button
+            type="primary"
+            :icon="useRenderIcon(AddFill)"
+            @click="openDialog()"
+          >
+            新增菜单
+          </el-button>
+        </Perms>
       </template>
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
@@ -102,44 +105,48 @@ const {
           @selection-change="handleSelectionChange"
         >
           <template #operation="{ row }">
-            <el-button
-              v-auth="'SystemMenu:edit'"
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(EditPen)"
-              @click="openDialog('修改', row)"
-            >
-              修改
-            </el-button>
-            <el-button
-              v-show="row.menuType !== 3"
-              v-auth="'SystemMenu:addNode'"
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(AddFill)"
-              @click="openDialog('新增', { parentId: row.id } as any)"
-            >
-              新增
-            </el-button>
+            <Perms value="'SystemMenu:edit'">
+              <el-button
+                class="reset-margin"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(EditPen)"
+                @click="openDialog('修改', row)"
+              >
+                修改
+              </el-button>
+            </Perms>
+            <Perms value="'SystemMenu:addNode'">
+              <el-button
+                v-show="row.menuType !== 3"
+                class="reset-margin"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(AddFill)"
+                @click="openDialog('新增', { parentId: row.id } as any)"
+              >
+                新增
+              </el-button>
+            </Perms>
             <el-popconfirm
               :title="`是否确认删除菜单名称为${transformI18n(row.title)}的这条数据${row?.children?.length > 0 ? '。注意下级菜单也会一并删除，请谨慎操作' : ''}`"
               @confirm="handleDelete(row)"
             >
               <template #reference>
-                <el-button
-                  v-auth="'SystemMenu:delete'"
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(Delete)"
-                >
-                  删除
-                </el-button>
+                <Perms value="'SystemMenu:delete'">
+                  <el-button
+                    class="reset-margin"
+                    link
+                    type="primary"
+                    :size="size"
+                    :icon="useRenderIcon(Delete)"
+                  >
+                    删除
+                  </el-button>
+                </Perms>
+
               </template>
             </el-popconfirm>
           </template>

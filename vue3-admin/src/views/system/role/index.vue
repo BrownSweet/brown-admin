@@ -152,14 +152,15 @@ onMounted(() => {
         @refresh="onSearch"
       >
         <template #buttons>
-          <el-button
-            v-auth="'SystemRole:add'"
-            type="primary"
-            :icon="useRenderIcon(AddFill)"
-            @click="openDialog()"
-          >
-            新增角色
-          </el-button>
+          <Perms value="'SystemRole:add'">
+            <el-button
+              type="primary"
+              :icon="useRenderIcon(AddFill)"
+              @click="openDialog()"
+            >
+              新增角色
+            </el-button>
+          </Perms>
         </template>
         <template v-slot="{ size, dynamicColumns }">
           <pure-table
@@ -184,45 +185,48 @@ onMounted(() => {
             @page-current-change="handleCurrentChange"
           >
             <template #operation="{ row }">
-              <el-button
-                v-auth="'SystemRole:edit'"
-                class="reset-margin"
-                link
-                type="primary"
-                :size="size"
-                :icon="useRenderIcon(EditPen)"
-                @click="openDialog('修改', row)"
-              >
-                修改
-              </el-button>
+              <Perms value="'SystemRole:edit'">
+                <el-button
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(EditPen)"
+                  @click="openDialog('修改', row)"
+                >
+                  修改
+                </el-button>
+              </Perms>
               <el-popconfirm
                 :title="`是否确认删除角色名称为${row.name}的这条数据`"
                 @confirm="handleDelete(row)"
               >
                 <template #reference>
-                  <el-button
-                    v-auth="'SystemRole:delete'"
-                    class="reset-margin"
-                    link
-                    type="primary"
-                    :size="size"
-                    :icon="useRenderIcon(Delete)"
-                  >
-                    删除
-                  </el-button>
+                  <Perms value="'SystemRole:delete'">
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(Delete)"
+                    >
+                      删除
+                    </el-button>
+                  </Perms>
                 </template>
               </el-popconfirm>
-              <el-button
-                v-auth="'SystemRole:permission'"
-                class="reset-margin"
-                link
-                type="primary"
-                :size="size"
-                :icon="useRenderIcon(Menu)"
-                @click="handleMenu(row)"
-              >
-                权限
-              </el-button>
+              <Perms value="'SystemRole:permission'">
+                <el-button
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(Menu)"
+                  @click="handleMenu(row)"
+                >
+                  权限
+                </el-button>
+              </Perms>
               <!-- <el-dropdown>
               <el-button
                 class="ml-3 mt-[2px]"

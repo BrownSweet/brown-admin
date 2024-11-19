@@ -111,14 +111,15 @@ const {
       </el-form>
       <PureTableBar title="用户管理" :columns="columns" @refresh="onSearch">
         <template #buttons>
-          <el-button
-            v-auth="'SystemUser:add'"
-            type="primary"
-            :icon="useRenderIcon(AddFill)"
-            @click="openDialog()"
-          >
-            新增用户
-          </el-button>
+          <Perms value="'SystemUser:add'">
+            <el-button
+              type="primary"
+              :icon="useRenderIcon(AddFill)"
+              @click="openDialog()"
+            >
+              新增用户
+            </el-button>
+          </Perms>
         </template>
         <template v-slot="{ size, dynamicColumns }">
           <div
@@ -166,32 +167,34 @@ const {
             @page-current-change="handleCurrentChange"
           >
             <template #operation="{ row }">
-              <el-button
-                v-auth="'SystemUser:edit'"
-                class="reset-margin"
-                link
-                type="primary"
-                :size="size"
-                :icon="useRenderIcon(EditPen)"
-                @click="openDialog('修改', row)"
-              >
-                修改
-              </el-button>
+              <Perms value="'SystemUser:edit'">
+                <el-button
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(EditPen)"
+                  @click="openDialog('修改', row)"
+                >
+                  修改
+                </el-button>
+              </Perms>
               <el-popconfirm
                 :title="`是否确认删除用户编号为${row.id}的这条数据`"
                 @confirm="handleDelete(row)"
               >
                 <template #reference>
-                  <el-button
-                    v-auth="'SystemUser:delete'"
-                    class="reset-margin"
-                    link
-                    type="primary"
-                    :size="size"
-                    :icon="useRenderIcon(Delete)"
-                  >
-                    删除
-                  </el-button>
+                  <Perms value="'SystemUser:delete'">
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(Delete)"
+                    >
+                      删除
+                    </el-button>
+                  </Perms>
                 </template>
               </el-popconfirm>
               <el-dropdown>
@@ -206,43 +209,46 @@ const {
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item>
-                      <el-button
-                        v-auth="'SystemUser:addRole'"
-                        :class="buttonClass"
-                        link
-                        type="primary"
-                        :size="size"
-                        :icon="useRenderIcon(Role)"
-                        @click="handleRole(row)"
-                      >
-                        分配角色
-                      </el-button>
+                      <Perms value="'SystemUser:addRole'">
+                        <el-button
+                          :class="buttonClass"
+                          link
+                          type="primary"
+                          :size="size"
+                          :icon="useRenderIcon(Role)"
+                          @click="handleRole(row)"
+                        >
+                          分配角色
+                        </el-button>
+                      </Perms>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                      <el-button
-                        v-auth="'SystemUser:resetPassword'"
-                        :class="buttonClass"
-                        link
-                        type="primary"
-                        :size="size"
-                        :icon="useRenderIcon(Password)"
-                        @click="handleReset(row)"
-                      >
-                        重置密码
-                      </el-button>
+                      <Perms value="'SystemUser:resetPassword'">
+                        <el-button
+                          :class="buttonClass"
+                          link
+                          type="primary"
+                          :size="size"
+                          :icon="useRenderIcon(Password)"
+                          @click="handleReset(row)"
+                        >
+                          重置密码
+                        </el-button>
+                      </Perms>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                      <el-button
-                        v-auth="'SystemUser:uploadAvavar'"
-                        :class="buttonClass"
-                        link
-                        type="primary"
-                        :size="size"
-                        :icon="useRenderIcon(Upload)"
-                        @click="handleUpload(row)"
-                      >
-                        上传头像
-                      </el-button>
+                      <Perms value="'SystemUser:uploadAvavar'">
+                        <el-button
+                          :class="buttonClass"
+                          link
+                          type="primary"
+                          :size="size"
+                          :icon="useRenderIcon(Upload)"
+                          @click="handleUpload(row)"
+                        >
+                          上传头像
+                        </el-button>
+                      </Perms>
                     </el-dropdown-item>
                   </el-dropdown-menu>
                 </template>

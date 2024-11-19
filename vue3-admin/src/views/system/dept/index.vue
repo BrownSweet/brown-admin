@@ -56,22 +56,24 @@ const {
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button
-          v-auth="'SystemDept:search'"
-          type="primary"
-          :icon="useRenderIcon('ri:search-line')"
-          :loading="loading"
-          @click="onSearch"
-        >
-          搜索
-        </el-button>
-        <el-button
-          v-auth="'SystemDept:reset'"
-          :icon="useRenderIcon(Refresh)"
-          @click="resetForm(formRef)"
-        >
-          重置
-        </el-button>
+        <Perms value="'SystemDept:search'">
+          <el-button
+            type="primary"
+            :icon="useRenderIcon('ri:search-line')"
+            :loading="loading"
+            @click="onSearch"
+          >
+            搜索
+          </el-button>
+        </Perms>
+        <Perms value="'SystemDept:reset'">
+          <el-button
+            :icon="useRenderIcon(Refresh)"
+            @click="resetForm(formRef)"
+          >
+            重置
+          </el-button>
+        </Perms>
       </el-form-item>
     </el-form>
 
@@ -82,14 +84,15 @@ const {
       @refresh="onSearch"
     >
       <template #buttons>
-        <el-button
-          v-auth="'SystemDept:add'"
-          type="primary"
-          :icon="useRenderIcon(AddFill)"
-          @click="openDialog()"
-        >
-          新增部门
-        </el-button>
+        <Perms value="'SystemDept:add'">
+          <el-button
+            type="primary"
+            :icon="useRenderIcon(AddFill)"
+            @click="openDialog()"
+          >
+            新增部门
+          </el-button>
+        </Perms>
       </template>
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
@@ -112,43 +115,46 @@ const {
           @selection-change="handleSelectionChange"
         >
           <template #operation="{ row }">
-            <el-button
-              v-auth="'SystemDept:edit'"
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(EditPen)"
-              @click="openDialog('修改', row)"
-            >
-              修改
-            </el-button>
-            <el-button
-              v-auth="'SystemDept:add'"
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(AddFill)"
-              @click="openDialog('新增', { parentId: row.id } as any)"
-            >
-              新增
-            </el-button>
+            <Perms value="'SystemDept:edit'">
+              <el-button
+                class="reset-margin"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(EditPen)"
+                @click="openDialog('修改', row)"
+              >
+                修改
+              </el-button>
+            </Perms>
+            <Perms value="'SystemDept:add'">
+              <el-button
+                class="reset-margin"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(AddFill)"
+                @click="openDialog('新增', { parentId: row.id } as any)"
+              >
+                新增
+              </el-button>
+            </Perms>
             <el-popconfirm
               :title="`是否确认删除部门名称为${row.name}的这条数据`"
               @confirm="handleDelete(row)"
             >
               <template #reference>
-                <el-button
-                  v-auth="'SystemDept:delete'"
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(Delete)"
-                >
-                  删除
-                </el-button>
+                <Perms value="'SystemDept:delete'">
+                  <el-button
+                    class="reset-margin"
+                    link
+                    type="primary"
+                    :size="size"
+                    :icon="useRenderIcon(Delete)"
+                  >
+                    删除
+                  </el-button>
+                </Perms>
               </template>
             </el-popconfirm>
           </template>
