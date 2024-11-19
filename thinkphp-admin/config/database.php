@@ -26,7 +26,7 @@ return [
             // 服务器地址
             'hostname'        => env('database.hostname', '10.0.24.6'),
             // 数据库名
-            'database'        => env('database.database', 'typesetting'),
+            'database'        => env('database.database', 'brown_admin'),
             // 用户名
             'username'        => env('database.username', 'root'),
             // 密码
