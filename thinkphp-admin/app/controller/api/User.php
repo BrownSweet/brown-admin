@@ -164,7 +164,7 @@ class User
             ->toArray();
         $permissions=[];
         foreach ($role_handle as $k=>$v){
-            array_push($permissions,$v['Id'].':'.$v['menu_auth_code']);
+            array_push($permissions,$v['menu_auth_code']);
         }
         return json([
             'success' => true,
@@ -176,7 +176,8 @@ class User
                 'username' => $username,
                 'nickname' => $user['nickname'],
                 'roles' => $role_Ids,
-                'permissions' => $permissions
+                'permissions' => $permissions,
+                'companyId'=>$user['company_Id']
             ]
         ]);
     }
@@ -561,9 +562,9 @@ class User
     public function getMenu()
     {
         $authUser = request()->authUser;
+
         $menu = Db::name('system_menu')
             ->alias('sm')
-            ->join('system_menu_auth sma', 'sm.Id = sma.menu_Id', 'left')
             ->where('sm.status', 1)
             ->group('sm.Id')
             ->field(
@@ -575,16 +576,15 @@ class User
                 sm.showLink,
                 sm.showParent,
                 sm.rank,
-                sm.parent_Id as parentId,
-                GROUP_CONCAT(sma.menu_auth_name SEPARATOR ',') as auths,
-                GROUP_CONCAT(sma.menu_auth_code SEPARATOR ',') as authCodes,
-                GROUP_CONCAT(sma.Id SEPARATOR ',') as authIds
+                sm.parent_Id as parentId
                 "
             )
+
             ->select()
             ->toArray();
+
         $role_menu=Db::name('system_role_handle')
-            ->where('role_Id', $authUser['role_Id'])
+            ->whereIn('role_Id', explode(',', $authUser['role_Id']))
             ->where('is_delete', 0)
             ->field('menu_Id')
             ->select()
@@ -593,21 +593,36 @@ class User
         $role_menu=array_column($role_menu,'menu_Id');
         $menu=filterTree($menu,$role_menu);
 
+        $role_handle = Db::name('system_role_handle')
+            ->alias('srh')
+            ->join('system_menu_auth sma', 'srh.menu_auth_Id=sma.Id')
+            ->whereIn('role_Id', explode(',', $authUser['role_Id']))
+            ->where('is_delete', 0)
+            ->group('srh.menu_Id')
+            ->field("srh.menu_Id,
+            GROUP_CONCAT(sma.Id SEPARATOR ',') as Id,
+            GROUP_CONCAT(sma.menu_auth_code SEPARATOR ',') as menu_auth_code,
+            GROUP_CONCAT(sma.menu_auth_name SEPARATOR ',') as menu_auth_name
+            ")
+
+            ->select()->toArray();
+        $role_handle=array_column($role_handle,null,'menu_Id');
+
         foreach ($menu as $key => &$value) {
             $value['path'] = $value['menu_url'];
 //            $menu_url_arr=explode('/',$value['menu_url']);
             $value['name'] = $value['component_name'];
             $value['new_auths'] = [];
 
-            if (!empty($value['auths'])) {
-                $value['auths'] = explode(',', $value['auths']);
-                $value['authCodes'] = explode(',', $value['authCodes']);
-                $value['authIds'] = explode(',', $value['authIds']);
+            if(isset($role_handle[$value['id']])){
+                $value['auths'] = explode(',', $role_handle[$value['id']]['menu_auth_name']);
+                $value['authCodes'] = explode(',', $role_handle[$value['id']]['menu_auth_code']);
+                $value['authIds'] = explode(',', $role_handle[$value['id']]['Id']);
                 for ($i = 0; $i < count($value['auths']); $i++) {
-
-                    array_push($value['new_auths'], $value['authIds'][$i] . ':' . $value['authCodes'][$i]);
+                    array_push($value['new_auths'],  $value['authCodes'][$i]);
                 }
             }
+
             $value['meta'] = [
                 'title' => $value['menu_name'],
                 'icon' => $value['icon'],
@@ -615,7 +630,6 @@ class User
                 'showLink' => $value['showLink'] == 1 ? true : false,
                 'showParent' => $value['showParent'] == 1 ? true : false,
                 'auths' => $value['new_auths']
-
             ];
             unset($value['menu_name']);
             unset($value['icon']);
