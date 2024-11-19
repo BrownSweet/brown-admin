@@ -117,6 +117,7 @@ export const useUserStore = defineStore({
       this.username = "";
       this.roles = [];
       this.permissions = [];
+      this.companyId = 0;
       removeToken();
       useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
       resetRouter();

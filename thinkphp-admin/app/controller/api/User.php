@@ -442,7 +442,7 @@ class User
                 'email' => $params['email'],
                 'department_Id' => $params['parentId'],
                 'updateTime' => date('Y-m-d H:i:s'),
-               'remark' => $params['remark']
+                'remark' => $params['remark']
             ]);
         if ($res) {
             return json([
@@ -565,6 +565,7 @@ class User
 
         $menu = Db::name('system_menu')
             ->alias('sm')
+            ->join('system_menu_auth sma', 'sm.Id = sma.menu_Id', 'left')
             ->where('sm.status', 1)
             ->group('sm.Id')
             ->field(
@@ -576,10 +577,12 @@ class User
                 sm.showLink,
                 sm.showParent,
                 sm.rank,
-                sm.parent_Id as parentId
+                sm.parent_Id as parentId,
+                GROUP_CONCAT(sma.menu_auth_name SEPARATOR ',') as auths,
+                GROUP_CONCAT(sma.menu_auth_code SEPARATOR ',') as authCodes,
+                GROUP_CONCAT(sma.Id SEPARATOR ',') as authIds
                 "
             )
-
             ->select()
             ->toArray();
 
@@ -589,10 +592,8 @@ class User
             ->field('menu_Id')
             ->select()
             ->toArray();
-
         $role_menu=array_column($role_menu,'menu_Id');
         $menu=filterTree($menu,$role_menu);
-
         $role_handle = Db::name('system_role_handle')
             ->alias('srh')
             ->join('system_menu_auth sma', 'srh.menu_auth_Id=sma.Id')
