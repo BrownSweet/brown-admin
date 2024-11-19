@@ -51,14 +51,7 @@ const { initStorage } = useLayout();
 initStorage();
 const { dataTheme, overallStyle, dataThemeChange } = useDataThemeChange();
 dataThemeChange(overallStyle.value);
-const choiceLogo = computed(() => {
-  // console.log(overallStyle.value);
-  if (dataTheme.value) {
-    return dark_avatar;
-  } else {
-    return avatar;
-  }
-});
+
 const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translationCh, translationEn } = useTranslationLang();
 
@@ -189,7 +182,7 @@ watch(loginDay, value => {
       </div>
       <div class="login-box">
         <div class="login-form">
-          <img :src="choiceLogo" class="avatar" />
+          <avatar class="avatar" />
           <Motion>
             <h2 class="outline-none">
               <TypeIt

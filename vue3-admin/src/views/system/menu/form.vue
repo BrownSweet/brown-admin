@@ -134,7 +134,7 @@ defineExpose({ getRef });
           <el-input-number
             v-model="newFormInline.rank"
             class="!w-full"
-            :min="1"
+            :min="0"
             :max="9999"
             controls-position="right"
           />

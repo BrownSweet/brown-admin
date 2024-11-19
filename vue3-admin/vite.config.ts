@@ -27,7 +27,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       proxy: {
         "/api": {
           // 这里填写后端地址
-          target: "http://82.157.58.76:8002",
+          target: "http://brown-admin-server.yourcharon.com",
           changeOrigin: true,
           rewrite: path => path.replace(/^\//, "")
         }
