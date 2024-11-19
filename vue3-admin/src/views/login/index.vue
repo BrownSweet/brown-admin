@@ -84,9 +84,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
           password: encryptor.encrypt(ruleForm.password)
         })
         .then(res => {
-          console.log(res);
           if (res.success === 40100) {
-            console.log(res.msg);
             message(res.msg, { type: "error" });
           } else {
             return initRouter().then(() => {

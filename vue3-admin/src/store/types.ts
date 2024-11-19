@@ -48,4 +48,5 @@ export type userType = {
   isRemembered?: boolean;
   loginDay?: number;
   rsaPublicKey?: string;
+  companyId?: number;
 };

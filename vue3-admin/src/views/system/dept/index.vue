@@ -57,6 +57,7 @@ const {
       </el-form-item>
       <el-form-item>
         <el-button
+          v-auth="'SystemDept:search'"
           type="primary"
           :icon="useRenderIcon('ri:search-line')"
           :loading="loading"
@@ -64,20 +65,25 @@ const {
         >
           搜索
         </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
+        <el-button
+          v-auth="'SystemDept:reset'"
+          :icon="useRenderIcon(Refresh)"
+          @click="resetForm(formRef)"
+        >
           重置
         </el-button>
       </el-form-item>
     </el-form>
 
     <PureTableBar
-      title="部门管理（仅演示，操作后不生效）"
+      title="部门管理"
       :columns="columns"
       :tableRef="tableRef?.getTableRef()"
       @refresh="onSearch"
     >
       <template #buttons>
         <el-button
+          v-auth="'SystemDept:add'"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDialog()"
@@ -107,6 +113,7 @@ const {
         >
           <template #operation="{ row }">
             <el-button
+              v-auth="'SystemDept:edit'"
               class="reset-margin"
               link
               type="primary"
@@ -117,6 +124,7 @@ const {
               修改
             </el-button>
             <el-button
+              v-auth="'SystemDept:add'"
               class="reset-margin"
               link
               type="primary"
@@ -132,6 +140,7 @@ const {
             >
               <template #reference>
                 <el-button
+                  v-auth="'SystemDept:delete'"
                   class="reset-margin"
                   link
                   type="primary"

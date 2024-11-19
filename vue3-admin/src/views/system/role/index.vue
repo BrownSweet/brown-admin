@@ -19,6 +19,7 @@ import Menu from "@iconify-icons/ep/menu";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import Close from "@iconify-icons/ep/close";
 import Check from "@iconify-icons/ep/check";
+import { getAuths } from "@/router/utils";
 
 defineOptions({
   name: "SystemRole"
@@ -152,6 +153,7 @@ onMounted(() => {
       >
         <template #buttons>
           <el-button
+            v-auth="'SystemRole:add'"
             type="primary"
             :icon="useRenderIcon(AddFill)"
             @click="openDialog()"
@@ -183,6 +185,7 @@ onMounted(() => {
           >
             <template #operation="{ row }">
               <el-button
+                v-auth="'SystemRole:edit'"
                 class="reset-margin"
                 link
                 type="primary"
@@ -198,6 +201,7 @@ onMounted(() => {
               >
                 <template #reference>
                   <el-button
+                    v-auth="'SystemRole:delete'"
                     class="reset-margin"
                     link
                     type="primary"
@@ -209,6 +213,7 @@ onMounted(() => {
                 </template>
               </el-popconfirm>
               <el-button
+                v-auth="'SystemRole:permission'"
                 class="reset-margin"
                 link
                 type="primary"
@@ -259,7 +264,6 @@ onMounted(() => {
           </pure-table>
         </template>
       </PureTableBar>
-
       <div
         v-if="isShow"
         class="!min-w-[calc(100vw-60vw-268px)] w-full mt-2 px-2 pb-2 bg-bg_color ml-2 overflow-auto"

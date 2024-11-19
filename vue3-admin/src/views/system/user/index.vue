@@ -13,7 +13,7 @@ import Delete from "@iconify-icons/ep/delete";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
-import { getAuths } from "../../../router/utils";
+import { getAuths, createAuth } from "../../../router/utils";
 
 defineOptions({
   name: "SystemUser"
@@ -22,7 +22,6 @@ defineOptions({
 const treeRef = ref();
 const formRef = ref();
 const tableRef = ref();
-
 const {
   form,
   loading,
@@ -110,10 +109,10 @@ const {
           </el-button>
         </el-form-item>
       </el-form>
-      <p class="mb-2">当前拥有的code列表：{{ getAuths() }}</p>
       <PureTableBar title="用户管理" :columns="columns" @refresh="onSearch">
         <template #buttons>
           <el-button
+            v-auth="'SystemUser:add'"
             type="primary"
             :icon="useRenderIcon(AddFill)"
             @click="openDialog()"
@@ -168,6 +167,7 @@ const {
           >
             <template #operation="{ row }">
               <el-button
+                v-auth="'SystemUser:edit'"
                 class="reset-margin"
                 link
                 type="primary"
@@ -183,6 +183,7 @@ const {
               >
                 <template #reference>
                   <el-button
+                    v-auth="'SystemUser:delete'"
                     class="reset-margin"
                     link
                     type="primary"
@@ -206,6 +207,7 @@ const {
                   <el-dropdown-menu>
                     <el-dropdown-item>
                       <el-button
+                        v-auth="'SystemUser:addRole'"
                         :class="buttonClass"
                         link
                         type="primary"
@@ -218,6 +220,7 @@ const {
                     </el-dropdown-item>
                     <el-dropdown-item>
                       <el-button
+                        v-auth="'SystemUser:resetPassword'"
                         :class="buttonClass"
                         link
                         type="primary"
@@ -230,6 +233,7 @@ const {
                     </el-dropdown-item>
                     <el-dropdown-item>
                       <el-button
+                        v-auth="'SystemUser:uploadAvavar'"
                         :class="buttonClass"
                         link
                         type="primary"

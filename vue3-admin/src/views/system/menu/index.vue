@@ -48,6 +48,7 @@ const {
       </el-form-item>
       <el-form-item>
         <el-button
+          v-auth="'SystemMenu:search'"
           type="primary"
           :icon="useRenderIcon('ri:search-line')"
           :loading="loading"
@@ -55,12 +56,15 @@ const {
         >
           搜索
         </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
+        <el-button
+          v-auth="'SystemMenu:reset'"
+          :icon="useRenderIcon(Refresh)"
+          @click="resetForm(formRef)"
+        >
           重置
         </el-button>
       </el-form-item>
     </el-form>
-
     <PureTableBar
       title="菜单管理"
       :columns="columns"
@@ -70,6 +74,7 @@ const {
     >
       <template #buttons>
         <el-button
+          v-auth="'SystemMenu:addMenu'"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDialog()"
@@ -98,6 +103,7 @@ const {
         >
           <template #operation="{ row }">
             <el-button
+              v-auth="'SystemMenu:edit'"
               class="reset-margin"
               link
               type="primary"
@@ -109,6 +115,7 @@ const {
             </el-button>
             <el-button
               v-show="row.menuType !== 3"
+              v-auth="'SystemMenu:addNode'"
               class="reset-margin"
               link
               type="primary"
@@ -124,6 +131,7 @@ const {
             >
               <template #reference>
                 <el-button
+                  v-auth="'SystemMenu:delete'"
                   class="reset-margin"
                   link
                   type="primary"

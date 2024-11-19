@@ -40,7 +40,8 @@ export const useUserStore = defineStore({
     isRemembered: false,
     // 登录页的免登录存储几天，默认7天
     loginDay: 7,
-    rsaPublicKey: ""
+    rsaPublicKey: "",
+    companyId: 0
   }),
   actions: {
     SET_RSAKEY(key: string) {
@@ -81,6 +82,10 @@ export const useUserStore = defineStore({
     /** 设置登录页的免登录存储几天 */
     SET_LOGINDAY(value: number) {
       this.loginDay = Number(value);
+    },
+    /** 存储公司id */
+    SET_COMPANYID(value: number) {
+      this.companyId = value;
     },
     /** 获取RSA公钥 */
     async getRsaPublicKey(data) {
