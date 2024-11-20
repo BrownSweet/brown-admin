@@ -47,24 +47,21 @@ const {
         />
       </el-form-item>
       <el-form-item>
-        <Perms value="'SystemMenu:search'">
-        <el-button
-          type="primary"
-          :icon="useRenderIcon('ri:search-line')"
-          :loading="loading"
-          @click="onSearch"
-        >
-          搜索
-        </el-button>
-        </Perms>
-        <Perms value="'SystemMenu:reset'">
+        <Auth value="SystemMenu:search">
           <el-button
-            :icon="useRenderIcon(Refresh)"
-            @click="resetForm(formRef)"
+            type="primary"
+            :icon="useRenderIcon('ri:search-line')"
+            :loading="loading"
+            @click="onSearch"
           >
+            搜索
+          </el-button>
+        </Auth>
+        <Auth value="SystemMenu:reset">
+          <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
             重置
           </el-button>
-        </Perms>
+        </Auth>
       </el-form-item>
     </el-form>
     <PureTableBar
@@ -75,7 +72,7 @@ const {
       @refresh="onSearch"
     >
       <template #buttons>
-        <Perms value="'SystemMenu:addMenu'">
+        <Auth value="SystemMenu:addMenu">
           <el-button
             type="primary"
             :icon="useRenderIcon(AddFill)"
@@ -83,7 +80,7 @@ const {
           >
             新增菜单
           </el-button>
-        </Perms>
+        </Auth>
       </template>
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
@@ -105,7 +102,7 @@ const {
           @selection-change="handleSelectionChange"
         >
           <template #operation="{ row }">
-            <Perms value="'SystemMenu:edit'">
+            <Auth value="SystemMenu:edit">
               <el-button
                 class="reset-margin"
                 link
@@ -116,8 +113,8 @@ const {
               >
                 修改
               </el-button>
-            </Perms>
-            <Perms value="'SystemMenu:addNode'">
+            </Auth>
+            <Auth value="SystemMenu:addNode">
               <el-button
                 v-show="row.menuType !== 3"
                 class="reset-margin"
@@ -129,13 +126,13 @@ const {
               >
                 新增
               </el-button>
-            </Perms>
+            </Auth>
             <el-popconfirm
               :title="`是否确认删除菜单名称为${transformI18n(row.title)}的这条数据${row?.children?.length > 0 ? '。注意下级菜单也会一并删除，请谨慎操作' : ''}`"
               @confirm="handleDelete(row)"
             >
               <template #reference>
-                <Perms value="'SystemMenu:delete'">
+                <Auth value="SystemMenu:delete">
                   <el-button
                     class="reset-margin"
                     link
@@ -145,8 +142,7 @@ const {
                   >
                     删除
                   </el-button>
-                </Perms>
-
+                </Auth>
               </template>
             </el-popconfirm>
           </template>

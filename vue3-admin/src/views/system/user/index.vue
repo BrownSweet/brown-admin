@@ -111,7 +111,7 @@ const {
       </el-form>
       <PureTableBar title="用户管理" :columns="columns" @refresh="onSearch">
         <template #buttons>
-          <Perms value="'SystemUser:add'">
+          <Auth value="SystemUser:add">
             <el-button
               type="primary"
               :icon="useRenderIcon(AddFill)"
@@ -119,7 +119,7 @@ const {
             >
               新增用户
             </el-button>
-          </Perms>
+          </Auth>
         </template>
         <template v-slot="{ size, dynamicColumns }">
           <div
@@ -167,7 +167,7 @@ const {
             @page-current-change="handleCurrentChange"
           >
             <template #operation="{ row }">
-              <Perms value="'SystemUser:edit'">
+              <Auth value="SystemUser:edit">
                 <el-button
                   class="reset-margin"
                   link
@@ -178,13 +178,13 @@ const {
                 >
                   修改
                 </el-button>
-              </Perms>
+              </Auth>
               <el-popconfirm
                 :title="`是否确认删除用户编号为${row.id}的这条数据`"
                 @confirm="handleDelete(row)"
               >
                 <template #reference>
-                  <Perms value="'SystemUser:delete'">
+                  <Auth value="SystemUser:delete">
                     <el-button
                       class="reset-margin"
                       link
@@ -194,7 +194,7 @@ const {
                     >
                       删除
                     </el-button>
-                  </Perms>
+                  </Auth>
                 </template>
               </el-popconfirm>
               <el-dropdown>
@@ -209,7 +209,7 @@ const {
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item>
-                      <Perms value="'SystemUser:addRole'">
+                      <Auth value="SystemUser:addRole">
                         <el-button
                           :class="buttonClass"
                           link
@@ -220,10 +220,10 @@ const {
                         >
                           分配角色
                         </el-button>
-                      </Perms>
+                      </Auth>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                      <Perms value="'SystemUser:resetPassword'">
+                      <Auth value="SystemUser:resetPassword">
                         <el-button
                           :class="buttonClass"
                           link
@@ -234,10 +234,10 @@ const {
                         >
                           重置密码
                         </el-button>
-                      </Perms>
+                      </Auth>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                      <Perms value="'SystemUser:uploadAvavar'">
+                      <Auth value="SystemUser:uploadAvavar">
                         <el-button
                           :class="buttonClass"
                           link
@@ -248,7 +248,7 @@ const {
                         >
                           上传头像
                         </el-button>
-                      </Perms>
+                      </Auth>
                     </el-dropdown-item>
                   </el-dropdown-menu>
                 </template>

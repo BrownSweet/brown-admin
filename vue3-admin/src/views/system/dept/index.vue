@@ -56,7 +56,7 @@ const {
         </el-select>
       </el-form-item>
       <el-form-item>
-        <Perms value="'SystemDept:search'">
+        <Auth value="SystemDept:search">
           <el-button
             type="primary"
             :icon="useRenderIcon('ri:search-line')"
@@ -65,15 +65,12 @@ const {
           >
             搜索
           </el-button>
-        </Perms>
-        <Perms value="'SystemDept:reset'">
-          <el-button
-            :icon="useRenderIcon(Refresh)"
-            @click="resetForm(formRef)"
-          >
+        </Auth>
+        <Auth value="SystemDept:reset">
+          <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
             重置
           </el-button>
-        </Perms>
+        </Auth>
       </el-form-item>
     </el-form>
 
@@ -84,7 +81,7 @@ const {
       @refresh="onSearch"
     >
       <template #buttons>
-        <Perms value="'SystemDept:add'">
+        <Auth value="SystemDept:add">
           <el-button
             type="primary"
             :icon="useRenderIcon(AddFill)"
@@ -92,7 +89,7 @@ const {
           >
             新增部门
           </el-button>
-        </Perms>
+        </Auth>
       </template>
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
@@ -115,7 +112,7 @@ const {
           @selection-change="handleSelectionChange"
         >
           <template #operation="{ row }">
-            <Perms value="'SystemDept:edit'">
+            <Auth value="SystemDept:edit">
               <el-button
                 class="reset-margin"
                 link
@@ -126,8 +123,8 @@ const {
               >
                 修改
               </el-button>
-            </Perms>
-            <Perms value="'SystemDept:add'">
+            </Auth>
+            <Auth value="SystemDept:add">
               <el-button
                 class="reset-margin"
                 link
@@ -138,13 +135,13 @@ const {
               >
                 新增
               </el-button>
-            </Perms>
+            </Auth>
             <el-popconfirm
               :title="`是否确认删除部门名称为${row.name}的这条数据`"
               @confirm="handleDelete(row)"
             >
               <template #reference>
-                <Perms value="'SystemDept:delete'">
+                <Auth value="SystemDept:delete">
                   <el-button
                     class="reset-margin"
                     link
@@ -154,7 +151,7 @@ const {
                   >
                     删除
                   </el-button>
-                </Perms>
+                </Auth>
               </template>
             </el-popconfirm>
           </template>

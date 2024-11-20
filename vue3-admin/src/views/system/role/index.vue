@@ -152,7 +152,7 @@ onMounted(() => {
         @refresh="onSearch"
       >
         <template #buttons>
-          <Perms value="'SystemRole:add'">
+          <Auth value="SystemRole:add">
             <el-button
               type="primary"
               :icon="useRenderIcon(AddFill)"
@@ -160,7 +160,7 @@ onMounted(() => {
             >
               新增角色
             </el-button>
-          </Perms>
+          </Auth>
         </template>
         <template v-slot="{ size, dynamicColumns }">
           <pure-table
@@ -185,7 +185,7 @@ onMounted(() => {
             @page-current-change="handleCurrentChange"
           >
             <template #operation="{ row }">
-              <Perms value="'SystemRole:edit'">
+              <Auth value="SystemRole:edit">
                 <el-button
                   class="reset-margin"
                   link
@@ -196,13 +196,13 @@ onMounted(() => {
                 >
                   修改
                 </el-button>
-              </Perms>
+              </Auth>
               <el-popconfirm
                 :title="`是否确认删除角色名称为${row.name}的这条数据`"
                 @confirm="handleDelete(row)"
               >
                 <template #reference>
-                  <Perms value="'SystemRole:delete'">
+                  <Auth value="SystemRole:delete">
                     <el-button
                       class="reset-margin"
                       link
@@ -212,10 +212,10 @@ onMounted(() => {
                     >
                       删除
                     </el-button>
-                  </Perms>
+                  </Auth>
                 </template>
               </el-popconfirm>
-              <Perms value="'SystemRole:permission'">
+              <Auth value="SystemRole:permission">
                 <el-button
                   class="reset-margin"
                   link
@@ -226,7 +226,7 @@ onMounted(() => {
                 >
                   权限
                 </el-button>
-              </Perms>
+              </Auth>
               <!-- <el-dropdown>
               <el-button
                 class="ml-3 mt-[2px]"
