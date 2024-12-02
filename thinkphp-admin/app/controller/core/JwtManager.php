@@ -12,6 +12,7 @@ use Firebase\JWT\ExpiredException;
 use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use think\exception\ErrorException;
 
 class JwtManager
 {
@@ -69,8 +70,8 @@ class JwtManager
         try {
             $decoded = JWT::decode($token, new Key($this->secret, 'HS256'));
             return ['valid' => true, 'payload' => (array) $decoded];
-        } catch (BeforeValidException $e) {
-            return ['valid' => false, 'error' => $e->getMessage()];
+        } catch (BeforeValidException|SignatureInvalidException|ExpiredException|ErrorException $e) {
+            return ['valid' => false, 'error' => $e->getMessage().$e->getFile().$e->getLine()];
         }
     }
 
@@ -100,7 +101,7 @@ class JwtManager
         try {
             $decoded = JWT::decode($token, new Key($this->secret, 'HS256'));
             return ['valid' => true, 'payload' => (array) $decoded];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return ['valid' => false, 'error' => $e->getMessage()];
         }
     }
@@ -109,7 +110,6 @@ class JwtManager
     public function refreshToken($refreshToken)
     {
         $verificationResult = $this->verifyRefreshToken($refreshToken);
-
         if ($verificationResult['valid']) {
             $payload = (array)$verificationResult['payload']['data'];
             if ($payload['is_refresh']){
