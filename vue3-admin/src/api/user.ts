@@ -1,8 +1,6 @@
 import { http } from "@/utils/http";
-import { baseUrlApi } from "@/api/utils";
-export type UserResult = {
-  success: unknown;
-  msg: string;
+import { baseUrlApi, type Result } from "@/api/utils";
+export type UserResult = Result & {
   data: {
     /** 头像 */
     avatar: string;
@@ -22,15 +20,13 @@ export type UserResult = {
     expires: Date;
   };
 };
-export type RsaPublicKeyResult = {
-  success: boolean;
+export type RsaPublicKeyResult = Result & {
   data: {
     /** 公钥 */
     publicKey: string;
   };
 };
-export type RefreshTokenResult = {
-  success: boolean;
+export type RefreshTokenResult = Result & {
   data: {
     /** `token` */
     accessToken: string;
@@ -40,7 +36,12 @@ export type RefreshTokenResult = {
     expires: Date;
   };
 };
-
+export type updatePasswordResult = Result & {
+  data: any;
+};
+export type onRegisterResult = Result & {
+  data: any;
+};
 export type UserInfo = {
   /** 头像 */
   avatar: string;
@@ -82,7 +83,6 @@ type ResultTable = {
     currentPage?: number;
   };
 };
-
 export const getRsaPublicKey = (params?: object) => {
   return http.request<RsaPublicKeyResult>(
     "get",
@@ -116,9 +116,15 @@ export const getMineLogs = (data?: object) => {
 
 /** 账户设置-修改密码 */
 export const updatePassword = (data?: object) => {
-  return http.request<any>("put", baseUrlApi("updatePassword"), { data });
+  return http.request<updatePasswordResult>(
+    "put",
+    baseUrlApi("updatePassword"),
+    { data }
+  );
 };
 
 export const onRegister = (data?: object) => {
-  return http.request<any>("post", baseUrlApi("register"), { data });
+  return http.request<onRegisterResult>("post", baseUrlApi("register"), {
+    data
+  });
 };

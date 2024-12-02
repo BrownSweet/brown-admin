@@ -93,11 +93,7 @@ function filterNoPermissionTree(data: RouteComponent[]) {
   );
   return filterChildrenTree(newTree);
 }
-function createAuth(code) {
-  return (
-    storageLocal().getItem<DataInfo<number>>(userKey).companyId + ":" + code
-  );
-}
+
 /** 通过指定 `key` 获取父级路径集合，默认 `key` 为 `path` */
 function getParentPaths(value: string, routes: RouteRecordRaw[], key = "path") {
   // 深度遍历查找
@@ -248,7 +244,6 @@ function formatFlatteningRoutes(routesList: RouteRecordRaw[]) {
  * @returns 返回将一维数组重新处理成规定路由的格式
  */
 function formatTwoStageRoutes(routesList: RouteRecordRaw[]) {
-  console.log("routesList", routesList);
   if (routesList.length === 0) return routesList;
   const newRoutesList: RouteRecordRaw[] = [];
   routesList.forEach((v: RouteRecordRaw) => {
@@ -394,7 +389,6 @@ function getTopMenu(tag = false): menuType {
 }
 
 export {
-  createAuth,
   hasAuth,
   getAuths,
   ascending,

@@ -13,6 +13,7 @@ import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
+import { message } from "@/utils/message";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -88,6 +89,14 @@ class PureHttp {
                     useUserStoreHook()
                       .handRefreshToken({ refreshToken: data.refreshToken })
                       .then(res => {
+                        if (!res.success) {
+                          message(res.message + ",请重新登录", {
+                            type: "error",
+                            duration: 2000
+                          });
+                          useUserStoreHook().logOut();
+                          return;
+                        }
                         const token = res.data.accessToken;
                         config.headers["Authorization"] = formatToken(token);
                         PureHttp.requests.forEach(cb => cb(token));
@@ -120,6 +129,16 @@ class PureHttp {
     const instance = PureHttp.axiosInstance;
     instance.interceptors.response.use(
       (response: PureHttpResponse) => {
+        const $data = response.data;
+        if ($data.code === 1103 || $data.code === 1007) {
+          useUserStoreHook().logOut();
+          message($data.message, { type: "error" });
+          return;
+        }
+        if ($data.code === 1009) {
+          message($data.message, { type: "error" });
+          return;
+        }
         const $config = response.config;
         // 关闭进度条动画
         NProgress.done();

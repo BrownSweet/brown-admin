@@ -84,9 +84,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
           password: encryptor.encrypt(ruleForm.password)
         })
         .then(res => {
-          if (res.success === 40100) {
-            message(res.msg, { type: "error" });
-          } else {
+          if (res.success) {
             return initRouter().then(() => {
               disabled.value = true;
               router
@@ -96,6 +94,8 @@ const onLogin = async (formEl: FormInstance | undefined) => {
                 })
                 .finally(() => (disabled.value = false));
             });
+          } else {
+            message(res.message, { type: "error" });
           }
         })
         .finally(() => (loading.value = false));

@@ -59,16 +59,16 @@ const onUpdate = async (formEl: FormInstance | undefined) => {
           repeatPassword: encryptor.encrypt(ruleForm.repeatPassword)
         };
 
-        onRegister(data).then(data => {
-          if (data.code === 40100) {
-            message(transformI18n(data.data.msg), {
-              type: "warning"
-            });
-          } else {
-            message(transformI18n(data.data.msg), {
+        onRegister(data).then(res => {
+          if (res.success) {
+            message(transformI18n(res.message), {
               type: "success"
             });
             onBack();
+          } else {
+            message(transformI18n(res.message), {
+              type: "warning"
+            });
           }
           loading.value = false;
         });
