@@ -10,51 +10,48 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP6!';
-});
+//登录注册
+Route::post('api/login', 'api.system.user.Login/login');
+Route::get('api/getRsaPublicKey', 'api.system.user.Login/getRsaPublicKey');
+Route::post('api/refreshToken', 'api.system.user.Login/refreshToken');
+Route::post('api/register', 'api.system.Login/register');
+Route::put('api/updatePassword', 'api.system.Login/updatePassword');
+Route::get('api/getMenu', 'api.system.user.User/getMenu');
+//用户管理
+Route::get('api/getUser', 'api.system.user.User/getUser');
+Route::get('api/getUserById', 'api.system.user.User/getUserById');
+Route::get('api/getUserInfo', 'api.system.user.User/getUserInfo');
+Route::get('api/getUserList', 'api.system.user.User/getUserList');
+Route::get('api/getAllRoles', 'api.system.user.User/getAllRoles');
+Route::get('api/getUserRoles', 'api.system.user.User/getUserRoles');
+Route::put('api/setUserRole', 'api.system.user.User/setUserRole');
+Route::put('api/resetPassword', 'api.system.user.User/resetPassword');
+Route::post('api/addUser', 'api.user.system.User/addUser');
+Route::put('api/updateUser', 'api.user.system.User/updateUser');
+Route::delete('api/deleteUser', 'api.user.system.User/deleteUser');
+Route::put('api/setUserStatus', 'api.user.system.User/setUserStatus');
+//菜单管理
+Route::get('api/getSystemMenu', 'api.system.System/getSystemMenu');
+Route::post('api/addSystemMenu', 'api.system.System/addSystemMenu');
+Route::put('api/updateSystemMenu', 'api.system.System/updateSystemMenu');
+//部门管理
+Route::get('api/getDepartmentList', 'api.system.Department/getDepartmentList');
+Route::post('api/addDepartment', 'api.system.Department/addDepartment');
+Route::put('api/updateDepartment', 'api.system.Department/updateDepartment');
+Route::delete('api/deleteDepartment', 'api.system.Department/deleteDepartment');
 
-Route::get('hello', 'Index/hello');
-Route::get('index', 'Index/index');
-Route::get('pdf', 'Index/pdf');
-Route::post('echoimage', 'Index/echoimage');
-Route::get('name11', 'Index/name11');
+//角色管理
+Route::get('api/getRoleList', 'api.system.Role/getRoleList');
+Route::get('api/getRoleMenu', 'api.system.Role/getRoleMenu');
+Route::get('api/getRoleMenuIds', 'api.system.Role/getRoleMenuIds');
+Route::post('api/addRole', 'api.system.Role/addRole');
+Route::post('api/addAndUpdateRoleHhandle', 'api.system.Role/addAndUpdateRoleHhandle');
+Route::put('api/updateRole', 'api.system.Role/updateRole');
+Route::put('api/setRoleStatus', 'api.system.Role/setRoleStatus');
+Route::delete('api/deleteRole', 'api.system.Role/deleteRole');
 
-Route::post('api/UploadOroiginal', 'api.Upload/UploadOroiginal');
-Route::post('api/OriginalToImage', 'api.Image/OriginalToImage');
-Route::post('api/CreateBackgroundImage', 'api.Image/CreateBackgroundImage');
-Route::post('api/CopyImage', 'api.Image/CopyImage');
-Route::post('api/ResizeImage', 'api.Image/ResizeImage');
 
-Route::get('api/test', 'job.CopyToBackground/test');
-
-Route::post('api/login', 'api.User/login');
-Route::get('api/getRsaPublicKey', 'api.User/getRsaPublicKey');
-Route::post('api/refreshToken', 'api.User/refreshToken');
-Route::get('api/getMenu', 'api.User/getMenu');
-Route::get('api/getUserInfo', 'api.User/getUserInfo');
-Route::post('api/getUserList', 'api.User/getUserList');
-Route::get('api/getAllRoles', 'api.User/getAllRoles');
-Route::post('api/getUserRoles', 'api.User/getUserRoles');
-Route::post('api/setUserRole', 'api.User/setUserRole');
-Route::post('api/resetPassword', 'api.User/resetPassword');
-Route::post('api/addUser', 'api.User/addUser');
-Route::put('api/updateUser', 'api.User/updateUser');
-Route::post('api/register', 'api.User/register');
-Route::put('api/updatePassword', 'api.User/updatePassword');
-
-Route::post('api/getSystemMenu', 'api.System/getSystemMenu');
-Route::post('api/addSystemMenu', 'api.System/addSystemMenu');
-Route::put('api/updateSystemMenu', 'api.System/updateSystemMenu');
-
-Route::post('api/getDepartmentList', 'api.Department/getDepartmentList');
-Route::post('api/addDepartment', 'api.Department/addDepartment');
-Route::put('api/updateDepartment', 'api.Department/updateDepartment');
-
-Route::post('api/getRoleList', 'api.Role/getRoleList');
-Route::post('api/getRoleMenu', 'api.Role/getRoleMenu');
-Route::post('api/getRoleMenuIds', 'api.Role/getRoleMenuIds');
-
-Route::post('api/addRole', 'api.Role/addRole');
-Route::post('api/addAndUpdateRoleHhandle', 'api.Role/addAndUpdateRoleHhandle');
-Route::post('api/updateRole', 'api.Role/updateRole');
+Route::get('api/getLoginLog', 'api.system.Monitor/getLoginLog');
+Route::get('api/getOperationLog', 'api.system.Monitor/getOperationLog');
+Route::get('api/getSystemLog', 'api.system.Monitor/getSystemLog');
+Route::get('api/getSystemLogDetail', 'api.system.Monitor/getSystemLogDetail');
